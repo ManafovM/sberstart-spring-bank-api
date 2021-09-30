@@ -1,4 +1,4 @@
-package bank;
+package bank.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.List;
 
 @Data
@@ -13,18 +14,18 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Customer {
+public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    private String firstName;
-    private String lastName;
-    private String role;
+    private String number;
+    private BigDecimal amount;
 
-    @OneToMany(mappedBy = "customer")
-    private List<Account> accounts;
-
-    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
     private List<Card> cards;
+
+    @ManyToOne()
+    @JoinColumn(name = "customer_id")
+    private Customer customer;
 }

@@ -1,4 +1,4 @@
-package bank;
+package bank.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
