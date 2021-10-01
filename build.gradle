@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+    id 'war'
 }
 
 group 'manafov'
@@ -18,8 +19,8 @@ dependencies {
     implementation 'javax.persistence:javax.persistence-api:2.2'
     implementation 'com.h2database:h2:1.4.200'
     implementation 'org.hibernate:hibernate-core:5.5.7.Final'
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.0'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.0'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
 }
 
 test {
