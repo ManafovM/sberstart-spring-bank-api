@@ -3,14 +3,14 @@ package bank.dao;
 import java.util.List;
 import java.util.Optional;
 
-public interface CrudDao<T> {
+public interface GenericDao<T> {
     Optional<T> get(long id);
 
     List<T> getAll();
 
     void save(T entity);
 
-    void update(T entity);
+    T update(T entity);
 
     void delete(T entity);
 }
