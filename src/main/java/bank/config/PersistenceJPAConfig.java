@@ -16,7 +16,6 @@ import java.util.Properties;
 @Configuration
 @EnableTransactionManagement
 public class PersistenceJPAConfig {
-
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
         LocalContainerEntityManagerFactoryBean em
