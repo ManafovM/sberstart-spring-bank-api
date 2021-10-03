@@ -12,7 +12,7 @@ import java.util.List;
 @Service
 @Transactional
 public class CustomerServiceImpl implements CustomerService {
-    GenericDao<Customer> customerDao;
+    private GenericDao<Customer> customerDao;
 
     @Override
     public Customer getById(long id) {
