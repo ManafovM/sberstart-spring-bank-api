@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<databaseChangeLog
-        xmlns_xsi="https://www.w3.org/2001/XMLSchema-instance"
-        xsi_schemaLocation="https://www.liquibase.org/xml/ns/dbchangelog
-        https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
-    <include file="010-add-rows.sql" relativeToChangelogFile="true"/>
-</databaseChangeLog>
