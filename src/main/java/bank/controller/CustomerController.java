@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @AllArgsConstructor
-@Controller
+@RestController
 public class CustomerController {
     private CustomerService customerService;
 
