@@ -35,7 +35,8 @@ public class PersistenceJPAConfig {
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("org.h2.Driver");
-        dataSource.setUrl("jdbc:h2:/Users/u19571317/IdeaProjects/SberStartSpringBankAPI/src/main/webapp/db/bank");
+        dataSource.setUrl("jdbc:h2:/Users/u19571317/IdeaProjects/SberStartSpringBankAPI/" +
+                "src/main/resources/db/liquibase/bank");
         return dataSource;
     }
 
@@ -56,7 +57,7 @@ public class PersistenceJPAConfig {
     @Bean
     public SpringLiquibase liquibase() {
         SpringLiquibase liquibase = new SpringLiquibase();
-        liquibase.setChangeLog("src/main/java/webapp/db/changelog.xml");
+        liquibase.setChangeLog("classpath:db/liquibase/changelog.xml");
         liquibase.setDataSource(dataSource());
         return liquibase;
     }
