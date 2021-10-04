@@ -2,9 +2,8 @@ package bank.controller;
 
 
 import bank.entity.Customer;
-import bank.service.CustomerService;
+import bank.service.GenericService;
 import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,7 +11,7 @@ import java.util.List;
 @AllArgsConstructor
 @RestController
 public class CustomerController {
-    private CustomerService customerService;
+    private GenericService<Customer> customerService;
 
     @GetMapping("/customers/{id}")
     public Customer getById(@PathVariable Long id) {
