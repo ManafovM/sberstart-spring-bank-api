@@ -1,5 +1,6 @@
 package bank.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
@@ -9,8 +10,11 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Objects;
 
-@Data
+@Getter
+@Setter
+@ToString
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -34,5 +38,19 @@ public class Account {
     @NotNull
     @ManyToOne()
     @JoinColumn(name = "customer_id")
+    @JsonIgnore
     private Customer customer;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Account account = (Account) o;
+        return id == account.id && number.equals(account.number) && amount.equals(account.amount) && Objects.equals(cards, account.cards) && customer.equals(account.customer);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, number, amount, cards, customer);
+    }
 }
