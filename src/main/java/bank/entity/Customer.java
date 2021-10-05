@@ -1,6 +1,11 @@
 package bank.entity;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -8,7 +13,6 @@ import javax.validation.constraints.Size;
 import java.util.List;
 
 @Data
-@ToString(exclude = {"accounts", "cards"})
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -31,8 +35,10 @@ public class Customer {
     private String role;
 
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
+    @LazyCollection(LazyCollectionOption.FALSE)
     private List<Account> accounts;
 
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
+    @LazyCollection(LazyCollectionOption.FALSE)
     private List<Card> cards;
 }
