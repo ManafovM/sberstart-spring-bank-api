@@ -1,5 +1,6 @@
 package bank.config;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -24,6 +25,11 @@ public class WebConfig implements WebMvcConfigurer {
         bean.setPrefix("/WEB-INF/view/");
         bean.setSuffix(".jsp");
         return bean;
+    }
+
+    @Bean
+    public ModelMapper modelMapper() {
+        return new ModelMapper();
     }
 
     @Override
