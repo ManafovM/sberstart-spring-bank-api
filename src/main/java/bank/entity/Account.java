@@ -38,7 +38,6 @@ public class Account {
     @NotNull
     @ManyToOne()
     @JoinColumn(name = "customer_id")
-    @JsonIgnore
     private Customer customer;
 
     @Override

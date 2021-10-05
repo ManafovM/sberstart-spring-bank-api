@@ -6,7 +6,6 @@ import lombok.*;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
-import java.sql.Date;
 import java.util.Objects;
 
 @Getter
@@ -26,10 +25,12 @@ public class Card {
     private String number;
 
     @NotNull
-    private Date expireDate;
+    @Pattern(regexp = "[0-9]{2}/[0-9]{2}")
+    private String expireDate;
 
     @NotNull
-    private int cvc;
+    @Pattern(regexp = "[0-9]{3}")
+    private String cvc;
 
     @NotNull
     @Enumerated(EnumType.STRING)
@@ -38,21 +39,14 @@ public class Card {
     @NotNull
     @ManyToOne()
     @JoinColumn(name = "account_id")
-    @JsonIgnore
     private Account account;
-
-    private enum Status {
-        NEW,
-        ACTIVE,
-        BLOCKED
-    }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Card card = (Card) o;
-        return id == card.id && cvc == card.cvc && number.equals(card.number) && expireDate.equals(card.expireDate) && status == card.status && account.equals(card.account);
+        return id == card.id && number.equals(card.number) && expireDate.equals(card.expireDate) && cvc.equals(card.cvc) && status == card.status && account.equals(card.account);
     }
 
     @Override
