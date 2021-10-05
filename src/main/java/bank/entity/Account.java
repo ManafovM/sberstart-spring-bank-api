@@ -1,6 +1,8 @@
 package bank.entity;
 
 import lombok.*;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -9,7 +11,6 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @Data
-@ToString(exclude = "cards")
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -27,6 +28,7 @@ public class Account {
     private BigDecimal amount;
 
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
+    @LazyCollection(LazyCollectionOption.FALSE)
     private List<Card> cards;
 
     @NotNull

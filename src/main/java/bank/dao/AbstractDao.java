@@ -1,5 +1,7 @@
 package bank.dao;
 
+import lombok.Setter;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
@@ -9,6 +11,7 @@ public abstract class AbstractDao<T> {
     @PersistenceContext
     private EntityManager entityManager;
 
+    @Setter
     private Class<T> clazz;
 
     public Optional<T> get(long id) {
