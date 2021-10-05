@@ -1,16 +1,17 @@
 package bank.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.sql.Date;
+import java.util.Objects;
 
-@Data
+@Getter
+@Setter
+@ToString
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -31,12 +32,31 @@ public class Card {
     private int cvc;
 
     @NotNull
-    @ManyToOne()
-    @JoinColumn(name = "account_id")
-    private Account account;
+    @Enumerated(EnumType.STRING)
+    private Status status = Status.NEW;
 
     @NotNull
     @ManyToOne()
-    @JoinColumn(name = "customer_id")
-    private Customer customer;
+    @JoinColumn(name = "account_id")
+    @JsonIgnore
+    private Account account;
+
+    private enum Status {
+        NEW,
+        ACTIVE,
+        BLOCKED
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Card card = (Card) o;
+        return id == card.id && cvc == card.cvc && number.equals(card.number) && expireDate.equals(card.expireDate) && status == card.status && account.equals(card.account);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, number, expireDate, cvc, status, account);
+    }
 }
