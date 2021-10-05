@@ -39,7 +39,6 @@ public class Card {
     @NotNull
     @ManyToOne()
     @JoinColumn(name = "account_id")
-    @JsonIgnore
     private Account account;
 
     @Override
