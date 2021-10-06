@@ -31,6 +31,10 @@ public abstract class AbstractDao<T> {
     }
 
     public void delete(T entity) {
-        entityManager.remove(entity);
+        if (entityManager.contains(entity)) {
+            entityManager.remove(entity);
+        } else {
+            entityManager.remove(entityManager.merge(entity));
+        }
     }
 }

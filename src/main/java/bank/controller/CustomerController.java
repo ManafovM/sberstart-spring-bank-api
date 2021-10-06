@@ -1,30 +1,41 @@
 package bank.controller;
 
 
+import bank.controller.assembler.CustomerModelAssembler;
 import bank.dto.CustomerDto;
 import bank.entity.Customer;
 import bank.service.GenericService;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.EntityModel;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
 @AllArgsConstructor
 @RestController
 public class CustomerController {
     private GenericService<Customer> customerService;
+    private CustomerModelAssembler assembler;
     private ModelMapper modelMapper;
 
     @GetMapping("/customers/{id}")
-    public CustomerDto getById(@PathVariable Long id) {
-        return convertToDto(customerService.getById(id));
+    public EntityModel<CustomerDto> getById(@PathVariable Long id) {
+        return assembler.toModel(convertToDto(customerService.getById(id)));
     }
 
     @GetMapping("/customers")
-    public List<CustomerDto> getAll() {
-        return customerService.getAll().stream().map(this::convertToDto).collect(Collectors.toList());
+    public CollectionModel<EntityModel<CustomerDto>> getAll() {
+        List<EntityModel<CustomerDto>> customers = customerService.getAll().stream()
+                .map(this::convertToDto)
+                .map(assembler::toModel)
+                .collect(Collectors.toList());
+        return CollectionModel.of(customers, linkTo(methodOn(CustomerController.class).getAll()).withSelfRel());
     }
 
     @PostMapping("/customers")

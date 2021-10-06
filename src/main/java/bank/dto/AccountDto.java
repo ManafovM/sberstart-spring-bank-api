@@ -11,4 +11,5 @@ public class AccountDto {
     private String number;
     private BigDecimal amount;
     private List<CardDto> cards;
+    private long customerId;
 }

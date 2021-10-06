@@ -1,41 +1,40 @@
 package bank.controller;
 
+import bank.controller.assembler.AccountModelAssembler;
 import bank.dto.AccountDto;
 import bank.entity.Account;
-import bank.service.AccountService;
+import bank.service.GenericService;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.EntityModel;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
 @AllArgsConstructor
 @RestController
 public class AccountController {
-    private AccountService accountService;
+    private GenericService<Account> accountService;
+    private AccountModelAssembler assembler;
     private ModelMapper modelMapper;
 
     @GetMapping("/accounts/{id}")
-    public AccountDto getById(@PathVariable long id) {
-        return convertToDto(accountService.getById(id));
-    }
-
-    @GetMapping("/customers/{customerId}/accounts/{id}")
-    public AccountDto getByCustomerIdById(@PathVariable long customerId, @PathVariable long id) {
-        return convertToDto(accountService.getByCustomerIdById(customerId, id));
+    public EntityModel<AccountDto> getById(@PathVariable long id) {
+        return assembler.toModel(convertToDto(accountService.getById(id)));
     }
 
     @GetMapping("/accounts")
-    public List<AccountDto> getAll() {
-        return accountService.getAll().stream().map(this::convertToDto).collect(Collectors.toList());
-    }
-
-    @GetMapping("/customers/{customerId}/accounts")
-    public List<AccountDto> getAllByCustomerId(@PathVariable long customerId) {
-        return accountService.getAllByCustomerId(customerId).stream()
+    public CollectionModel<EntityModel<AccountDto>> getAll() {
+        List<EntityModel<AccountDto>> accounts = accountService.getAll().stream()
                 .map(this::convertToDto)
+                .map(assembler::toModel)
                 .collect(Collectors.toList());
+        return CollectionModel.of(accounts, linkTo(methodOn(AccountController.class).getAll()).withSelfRel());
     }
 
     @PostMapping("/accounts")

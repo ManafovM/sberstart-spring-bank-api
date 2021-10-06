@@ -9,4 +9,5 @@ public class CardDto {
     private String number;
     private String expireDate;
     private Status status;
+    private long accountId;
 }
