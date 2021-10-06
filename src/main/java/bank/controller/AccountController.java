@@ -2,7 +2,7 @@ package bank.controller;
 
 import bank.dto.AccountDto;
 import bank.entity.Account;
-import bank.service.GenericService;
+import bank.service.AccountService;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.web.bind.annotation.*;
@@ -13,17 +13,29 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @RestController
 public class AccountController {
-    private GenericService<Account> accountService;
+    private AccountService accountService;
     private ModelMapper modelMapper;
 
     @GetMapping("/accounts/{id}")
-    public AccountDto getById(@PathVariable Long id) {
+    public AccountDto getById(@PathVariable long id) {
         return convertToDto(accountService.getById(id));
+    }
+
+    @GetMapping("/customers/{customerId}/accounts/{id}")
+    public AccountDto getByCustomerIdById(@PathVariable long customerId, @PathVariable long id) {
+        return convertToDto(accountService.getByCustomerIdById(customerId, id));
     }
 
     @GetMapping("/accounts")
     public List<AccountDto> getAll() {
         return accountService.getAll().stream().map(this::convertToDto).collect(Collectors.toList());
+    }
+
+    @GetMapping("/customers/{customerId}/accounts")
+    public List<AccountDto> getAllByCustomerId(@PathVariable long customerId) {
+        return accountService.getAllByCustomerId(customerId).stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
     }
 
     @PostMapping("/accounts")

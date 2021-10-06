@@ -1,5 +1,6 @@
 package bank.service;
 
+import bank.dao.AccountDao;
 import bank.dao.GenericDao;
 import bank.entity.Account;
 import lombok.AllArgsConstructor;
@@ -12,11 +13,11 @@ import java.util.List;
 @AllArgsConstructor
 @Service
 @Transactional
-public class AccountServiceImpl implements GenericService<Account> {
-    private GenericDao<Account> dao;
+public class AccountServiceImpl implements AccountService {
+    private AccountDao dao;
 
     @Autowired
-    public void setDao(GenericDao<Account> dao) {
+    public void setDao(AccountDao dao) {
         this.dao = dao;
         this.dao.setClazz(Account.class);
     }
@@ -27,8 +28,20 @@ public class AccountServiceImpl implements GenericService<Account> {
         return account;
     }
 
+    public Account getByCustomerIdById(long customerId, long id) {
+        Account account = dao.getByCustomerIdById(customerId, id).orElseThrow(RuntimeException::new);
+        account.getCards().iterator();
+        return account;
+    }
+
     public List<Account> getAll() {
         List<Account> accounts = dao.getAll();
+        accounts.forEach(account -> account.getCards().iterator());
+        return accounts;
+    }
+
+    public List<Account> getAllByCustomerId(long id) {
+        List<Account> accounts = dao.getAllByCustomerId(id);
         accounts.forEach(account -> account.getCards().iterator());
         return accounts;
     }

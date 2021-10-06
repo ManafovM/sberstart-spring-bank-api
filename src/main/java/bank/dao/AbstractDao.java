@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public abstract class AbstractDao<T> {
     @PersistenceContext
-    private EntityManager entityManager;
+    protected EntityManager entityManager;
 
     @Setter
     private Class<T> clazz;
