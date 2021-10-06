@@ -3,7 +3,7 @@ package bank.controller;
 
 import bank.dto.CustomerDto;
 import bank.entity.Customer;
-import bank.service.CustomerService;
+import bank.service.GenericService;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.web.bind.annotation.*;
@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @RestController
 public class CustomerController {
-    private CustomerService customerService;
+    private GenericService<Customer> customerService;
     private ModelMapper modelMapper;
 
     @GetMapping("/customers/{id}")
@@ -33,8 +33,8 @@ public class CustomerController {
     }
 
     @PutMapping("/customers")
-    public Customer update(@RequestBody CustomerDto customerDto) {
-        return customerService.update(convertToEntity(customerDto));
+    public CustomerDto update(@RequestBody CustomerDto customerDto) {
+        return convertToDto(customerService.update(convertToEntity(customerDto)));
     }
 
     @DeleteMapping("/customers")

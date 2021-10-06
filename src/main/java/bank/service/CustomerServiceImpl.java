@@ -12,7 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 @Service
 @Transactional
-public class CustomerServiceImpl implements CustomerService {
+public class CustomerServiceImpl implements GenericService<Customer> {
     private GenericDao<Customer> dao;
 
     @Autowired
@@ -22,11 +22,15 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     public Customer getById(long id) {
-        return dao.get(id).orElseThrow(RuntimeException::new);
+        Customer customer = dao.get(id).orElseThrow(RuntimeException::new);
+        customer.getAccounts().forEach(account -> account.getCards().iterator());
+        return customer;
     }
 
     public List<Customer> getAll() {
-        return dao.getAll();
+        List<Customer> customers = dao.getAll();
+        customers.forEach(customer -> customer.getAccounts().forEach(account -> account.getCards().iterator()));
+        return customers;
     }
 
     public void create(Customer customer) {

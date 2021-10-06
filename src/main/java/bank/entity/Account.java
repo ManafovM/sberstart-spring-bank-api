@@ -1,9 +1,6 @@
 package bank.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -32,7 +29,6 @@ public class Account {
     private BigDecimal amount;
 
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
-    @LazyCollection(LazyCollectionOption.FALSE)
     private List<Card> cards;
 
     @NotNull

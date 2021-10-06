@@ -1,8 +1,6 @@
 package bank.entity;
 
 import lombok.*;
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -35,7 +33,6 @@ public class Customer {
     private String role;
 
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
-    @LazyCollection(LazyCollectionOption.FALSE)
     private List<Account> accounts;
 
     @Override
