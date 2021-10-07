@@ -2,10 +2,8 @@ package bank.controller;
 
 import bank.controller.assembler.AccountModelAssembler;
 import bank.dto.AccountDto;
-import bank.entity.Account;
 import bank.service.GenericService;
 import lombok.AllArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.web.bind.annotation.*;
@@ -19,19 +17,17 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 @AllArgsConstructor
 @RestController
 public class AccountController {
-    private GenericService<Account> accountService;
+    private GenericService<AccountDto> accountService;
     private AccountModelAssembler assembler;
-    private ModelMapper modelMapper;
 
     @GetMapping("/accounts/{id}")
     public EntityModel<AccountDto> getById(@PathVariable long id) {
-        return assembler.toModel(convertToDto(accountService.getById(id)));
+        return assembler.toModel(accountService.getById(id));
     }
 
     @GetMapping("/accounts")
     public CollectionModel<EntityModel<AccountDto>> getAll() {
         List<EntityModel<AccountDto>> accounts = accountService.getAll().stream()
-                .map(this::convertToDto)
                 .map(assembler::toModel)
                 .collect(Collectors.toList());
         return CollectionModel.of(accounts, linkTo(methodOn(AccountController.class).getAll()).withSelfRel());
@@ -39,24 +35,16 @@ public class AccountController {
 
     @PostMapping("/accounts")
     public void create(@RequestBody AccountDto accountDto) {
-        accountService.create(convertToEntity(accountDto));
+        accountService.create(accountDto);
     }
 
     @PutMapping("/accounts")
     public AccountDto update(@RequestBody AccountDto accountDto) {
-        return convertToDto(accountService.update(convertToEntity(accountDto)));
+        return accountService.update(accountDto);
     }
 
     @DeleteMapping("/accounts")
     public void delete(@RequestBody AccountDto accountDto) {
-        accountService.delete(convertToEntity(accountDto));
-    }
-
-    private AccountDto convertToDto(Account account) {
-        return modelMapper.map(account, AccountDto.class);
-    }
-
-    private Account convertToEntity(AccountDto accountDto) {
-        return modelMapper.map(accountDto, Account.class);
+        accountService.delete(accountDto);
     }
 }

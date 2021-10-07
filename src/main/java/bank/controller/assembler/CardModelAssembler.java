@@ -16,6 +16,6 @@ public class CardModelAssembler implements RepresentationModelAssembler<CardDto,
         return EntityModel.of(cardDto,
                 linkTo(methodOn(CardController.class).getById(cardDto.getId())).withSelfRel(),
                 linkTo(methodOn(CardController.class).getBalance(cardDto.getId())).withRel("balance"),
-                linkTo(methodOn(CardController.class).getAll()).withRel("accounts"));
+                linkTo(methodOn(CardController.class).getAll()).withRel("cards"));
     }
 }
