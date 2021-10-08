@@ -2,14 +2,16 @@ package bank.dto.converter;
 
 import bank.dto.CardDto;
 import bank.entity.Card;
-import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
-@AllArgsConstructor
 @Component
 public class CardConverter {
-    private ModelMapper mapper;
+    private final ModelMapper mapper;
+
+    public CardConverter(ModelMapper mapper) {
+        this.mapper = mapper;
+    }
 
     public CardDto toDto(Card card) {
         return mapper.map(card, CardDto.class);

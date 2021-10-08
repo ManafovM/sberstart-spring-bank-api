@@ -4,25 +4,22 @@ import bank.dao.GenericDao;
 import bank.dto.AccountDto;
 import bank.dto.converter.AccountConverter;
 import bank.entity.Account;
-import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@AllArgsConstructor
 @Service
 @Transactional
 public class AccountServiceImpl implements GenericService<AccountDto> {
-    private GenericDao<Account> dao;
-    private AccountConverter converter;
+    private final GenericDao<Account> dao;
+    private final AccountConverter converter;
 
-    @Autowired
-    public void setDao(GenericDao<Account> dao) {
+    public AccountServiceImpl(GenericDao<Account> dao, AccountConverter converter) {
         this.dao = dao;
         this.dao.setClazz(Account.class);
+        this.converter = converter;
     }
 
     public AccountDto getById(long id) {
@@ -39,8 +36,8 @@ public class AccountServiceImpl implements GenericService<AccountDto> {
                 .collect(Collectors.toList());
     }
 
-    public void create(AccountDto accountDto) {
-        dao.save(converter.toEntity(accountDto));
+    public AccountDto create(AccountDto accountDto) {
+        return converter.toDto(dao.save(converter.toEntity(accountDto)));
     }
 
     public AccountDto update(AccountDto accountDto) {

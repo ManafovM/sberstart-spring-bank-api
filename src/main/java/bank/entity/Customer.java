@@ -3,7 +3,7 @@ package bank.entity;
 import lombok.*;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.List;
 import java.util.Objects;
@@ -20,15 +20,15 @@ public class Customer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @NotNull
+    @NotBlank
     @Size(min = 2, max = 20)
     private String firstName;
 
-    @NotNull
+    @NotBlank
     @Size(min = 2, max = 30)
     private String lastName;
 
-    @NotNull
+    @NotBlank
     @Size(min = 2, max = 20)
     private String role;
 

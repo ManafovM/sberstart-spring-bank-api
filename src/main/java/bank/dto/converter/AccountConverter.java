@@ -2,14 +2,16 @@ package bank.dto.converter;
 
 import bank.dto.AccountDto;
 import bank.entity.Account;
-import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
-@AllArgsConstructor
 @Component
 public class AccountConverter {
-    private ModelMapper mapper;
+    private final ModelMapper mapper;
+
+    public AccountConverter(ModelMapper mapper) {
+        this.mapper = mapper;
+    }
 
     public AccountDto toDto(Account account) {
         return mapper.map(account, AccountDto.class);

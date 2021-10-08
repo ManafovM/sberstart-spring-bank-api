@@ -22,8 +22,9 @@ public abstract class AbstractDao<T> {
         return entityManager.createQuery("FROM " + clazz.getName(), clazz).getResultList();
     }
 
-    public void save(T entity) {
+    public T save(T entity) {
         entityManager.persist(entity);
+        return entity;
     }
 
     public T update(T entity) {
