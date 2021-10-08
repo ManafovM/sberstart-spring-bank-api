@@ -9,6 +9,7 @@ import java.util.List;
 public class AccountDto {
     private long id;
     private String number;
-    private BigDecimal amount;
+    private BalanceDto amount;
     private List<CardDto> cards;
+    private long customerId;
 }

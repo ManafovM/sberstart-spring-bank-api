@@ -1,10 +1,9 @@
 package bank.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import java.util.Objects;
 
@@ -20,23 +19,24 @@ public class Card {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @NotNull
+    @NotBlank
     @Pattern(regexp = "[0-9]{16}")
     private String number;
 
-    @NotNull
+    @NotBlank
     @Pattern(regexp = "[0-9]{2}/[0-9]{2}")
     private String expireDate;
 
-    @NotNull
+    @NotBlank
     @Pattern(regexp = "[0-9]{3}")
     private String cvc;
 
-    @NotNull
+    @NotBlank
     @Enumerated(EnumType.STRING)
+    @Builder.Default
     private Status status = Status.NEW;
 
-    @NotNull
+    @NotBlank
     @ManyToOne()
     @JoinColumn(name = "account_id")
     private Account account;

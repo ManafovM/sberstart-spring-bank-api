@@ -1,19 +1,26 @@
 package bank.service;
 
 import bank.dao.GenericDao;
+import bank.dto.CustomerDto;
+import bank.dto.converter.CustomerConverter;
 import bank.entity.Customer;
-import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.stream.Collectors;
 
-@AllArgsConstructor
 @Service
 @Transactional
-public class CustomerServiceImpl implements CustomerService {
+public class CustomerServiceImpl implements GenericService<CustomerDto> {
     private GenericDao<Customer> dao;
+    private final CustomerConverter converter;
+
+    public CustomerServiceImpl(GenericDao<Customer> dao, CustomerConverter converter) {
+        this.dao = dao;
+        this.converter = converter;
+    }
 
     @Autowired
     public void setDao(GenericDao<Customer> dao) {
@@ -21,23 +28,29 @@ public class CustomerServiceImpl implements CustomerService {
         this.dao.setClazz(Customer.class);
     }
 
-    public Customer getById(long id) {
-        return dao.get(id).orElseThrow(RuntimeException::new);
+    public CustomerDto getById(long id) {
+        Customer customer = dao.get(id).orElseThrow(RuntimeException::new);
+        customer.getAccounts().forEach(account -> account.getCards().iterator());
+        return converter.toDto(customer);
     }
 
-    public List<Customer> getAll() {
-        return dao.getAll();
+    public List<CustomerDto> getAll() {
+        List<Customer> customers = dao.getAll();
+        customers.forEach(customer -> customer.getAccounts().forEach(account -> account.getCards().iterator()));
+        return customers.stream()
+                .map(converter::toDto)
+                .collect(Collectors.toList());
     }
 
-    public void create(Customer customer) {
-        dao.save(customer);
+    public CustomerDto create(CustomerDto customerDto) {
+        return converter.toDto(dao.save(converter.toEntity(customerDto)));
     }
 
-    public Customer update(Customer customer) {
-        return dao.update(customer);
+    public CustomerDto update(CustomerDto customerDto) {
+        return converter.toDto(dao.update(converter.toEntity(customerDto)));
     }
 
-    public void delete(Customer customer) {
-        dao.delete(customer);
+    public void delete(CustomerDto customerDto) {
+        dao.delete(converter.toEntity(customerDto));
     }
 }

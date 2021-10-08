@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public abstract class AbstractDao<T> {
     @PersistenceContext
-    private EntityManager entityManager;
+    protected EntityManager entityManager;
 
     @Setter
     private Class<T> clazz;
@@ -22,8 +22,9 @@ public abstract class AbstractDao<T> {
         return entityManager.createQuery("FROM " + clazz.getName(), clazz).getResultList();
     }
 
-    public void save(T entity) {
+    public T save(T entity) {
         entityManager.persist(entity);
+        return entity;
     }
 
     public T update(T entity) {
@@ -31,6 +32,10 @@ public abstract class AbstractDao<T> {
     }
 
     public void delete(T entity) {
-        entityManager.remove(entity);
+        if (entityManager.contains(entity)) {
+            entityManager.remove(entity);
+        } else {
+            entityManager.remove(entityManager.merge(entity));
+        }
     }
 }

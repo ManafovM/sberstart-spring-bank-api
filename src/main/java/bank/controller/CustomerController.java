@@ -1,52 +1,54 @@
 package bank.controller;
 
 
+import bank.controller.assembler.CustomerModelAssembler;
 import bank.dto.CustomerDto;
-import bank.entity.Customer;
-import bank.service.CustomerService;
-import lombok.AllArgsConstructor;
-import org.modelmapper.ModelMapper;
+import bank.service.GenericService;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.EntityModel;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-@AllArgsConstructor
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
 @RestController
 public class CustomerController {
-    private CustomerService customerService;
-    private ModelMapper modelMapper;
+    private final GenericService<CustomerDto> customerService;
+    private final CustomerModelAssembler assembler;
+
+    public CustomerController(GenericService<CustomerDto> customerService, CustomerModelAssembler assembler) {
+        this.customerService = customerService;
+        this.assembler = assembler;
+    }
 
     @GetMapping("/customers/{id}")
-    public CustomerDto getById(@PathVariable Long id) {
-        return convertToDto(customerService.getById(id));
+    public EntityModel<CustomerDto> getById(@PathVariable long id) {
+        return assembler.toModel(customerService.getById(id));
     }
 
     @GetMapping("/customers")
-    public List<CustomerDto> getAll() {
-        return customerService.getAll().stream().map(this::convertToDto).collect(Collectors.toList());
+    public CollectionModel<EntityModel<CustomerDto>> getAll() {
+        List<EntityModel<CustomerDto>> customers = customerService.getAll().stream()
+                .map(assembler::toModel)
+                .collect(Collectors.toList());
+        return CollectionModel.of(customers, linkTo(methodOn(CustomerController.class).getAll()).withSelfRel());
     }
 
     @PostMapping("/customers")
-    public void create(@RequestBody CustomerDto customerDto) {
-        customerService.create(convertToEntity(customerDto));
+    public CustomerDto create(@RequestBody CustomerDto customerDto) {
+        return customerService.create(customerDto);
     }
 
     @PutMapping("/customers")
-    public Customer update(@RequestBody CustomerDto customerDto) {
-        return customerService.update(convertToEntity(customerDto));
+    public CustomerDto update(@RequestBody CustomerDto customerDto) {
+        return customerService.update(customerDto);
     }
 
     @DeleteMapping("/customers")
     public void delete(@RequestBody CustomerDto customerDto) {
-        customerService.delete(convertToEntity(customerDto));
-    }
-
-    private CustomerDto convertToDto(Customer customer) {
-        return modelMapper.map(customer, CustomerDto.class);
-    }
-
-    private Customer convertToEntity(CustomerDto customerDto) {
-        return modelMapper.map(customerDto, Customer.class);
+        customerService.delete(customerDto);
     }
 }
