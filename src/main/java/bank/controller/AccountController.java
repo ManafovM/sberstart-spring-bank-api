@@ -3,7 +3,6 @@ package bank.controller;
 import bank.controller.assembler.AccountModelAssembler;
 import bank.dto.AccountDto;
 import bank.service.GenericService;
-import lombok.AllArgsConstructor;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.web.bind.annotation.*;
@@ -14,11 +13,15 @@ import java.util.stream.Collectors;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
-@AllArgsConstructor
 @RestController
 public class AccountController {
-    private GenericService<AccountDto> accountService;
-    private AccountModelAssembler assembler;
+    private final GenericService<AccountDto> accountService;
+    private final AccountModelAssembler assembler;
+
+    public AccountController(GenericService<AccountDto> accountService, AccountModelAssembler assembler) {
+        this.accountService = accountService;
+        this.assembler = assembler;
+    }
 
     @GetMapping("/accounts/{id}")
     public EntityModel<AccountDto> getById(@PathVariable long id) {
@@ -34,8 +37,8 @@ public class AccountController {
     }
 
     @PostMapping("/accounts")
-    public void create(@RequestBody AccountDto accountDto) {
-        accountService.create(accountDto);
+    public AccountDto create(@RequestBody AccountDto accountDto) {
+        return accountService.create(accountDto);
     }
 
     @PutMapping("/accounts")

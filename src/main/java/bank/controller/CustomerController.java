@@ -4,7 +4,6 @@ package bank.controller;
 import bank.controller.assembler.CustomerModelAssembler;
 import bank.dto.CustomerDto;
 import bank.service.GenericService;
-import lombok.AllArgsConstructor;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.web.bind.annotation.*;
@@ -15,11 +14,15 @@ import java.util.stream.Collectors;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
-@AllArgsConstructor
 @RestController
 public class CustomerController {
-    private GenericService<CustomerDto> customerService;
-    private CustomerModelAssembler assembler;
+    private final GenericService<CustomerDto> customerService;
+    private final CustomerModelAssembler assembler;
+
+    public CustomerController(GenericService<CustomerDto> customerService, CustomerModelAssembler assembler) {
+        this.customerService = customerService;
+        this.assembler = assembler;
+    }
 
     @GetMapping("/customers/{id}")
     public EntityModel<CustomerDto> getById(@PathVariable long id) {
@@ -35,8 +38,8 @@ public class CustomerController {
     }
 
     @PostMapping("/customers")
-    public void create(@RequestBody CustomerDto customerDto) {
-        customerService.create(customerDto);
+    public CustomerDto create(@RequestBody CustomerDto customerDto) {
+        return customerService.create(customerDto);
     }
 
     @PutMapping("/customers")

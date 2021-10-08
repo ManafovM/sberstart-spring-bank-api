@@ -4,7 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import java.math.BigDecimal;
 import java.util.List;
@@ -22,18 +22,18 @@ public class Account {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @NotNull
+    @NotBlank
     @Pattern(regexp = "[0-9]{20}")
     private String number;
 
-    @NotNull
+    @NotBlank
     @Min(0)
     private BigDecimal amount;
 
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
     private List<Card> cards;
 
-    @NotNull
+    @NotBlank
     @ManyToOne()
     @JoinColumn(name = "customer_id")
     private Customer customer;

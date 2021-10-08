@@ -7,7 +7,7 @@ public interface GenericService<T> {
 
     List<T> getAll();
 
-    void create(T entity);
+    T create(T entity);
 
     T update(T entity);
 

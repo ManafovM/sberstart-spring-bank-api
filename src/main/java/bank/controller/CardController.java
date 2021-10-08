@@ -4,11 +4,9 @@ import bank.controller.assembler.CardModelAssembler;
 import bank.dto.BalanceDto;
 import bank.dto.CardDto;
 import bank.service.CardService;
-import lombok.AllArgsConstructor;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -16,11 +14,15 @@ import java.util.stream.Collectors;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
-@AllArgsConstructor
 @RestController
 public class CardController {
-    private CardService cardService;
-    private CardModelAssembler assembler;
+    private final CardService cardService;
+    private final CardModelAssembler assembler;
+
+    public CardController(CardService cardService, CardModelAssembler assembler) {
+        this.cardService = cardService;
+        this.assembler = assembler;
+    }
 
     @GetMapping("/cards/{id}")
     public EntityModel<CardDto> getById(@PathVariable long id) {
@@ -46,8 +48,8 @@ public class CardController {
     }
 
     @PostMapping("/cards")
-    public void create(@RequestBody CardDto cardDto) {
-        cardService.create(cardDto);
+    public CardDto create(@RequestBody CardDto cardDto) {
+        return cardService.create(cardDto);
     }
 
     @PutMapping("/cards")

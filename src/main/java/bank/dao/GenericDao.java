@@ -10,7 +10,7 @@ public interface GenericDao<T> {
 
     List<T> getAll();
 
-    void save(T entity);
+    T save(T entity);
 
     T update(T entity);
 

@@ -8,26 +8,24 @@ import bank.dto.converter.AccountConverter;
 import bank.dto.converter.CardConverter;
 import bank.entity.Account;
 import bank.entity.Card;
-import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@AllArgsConstructor
 @Service
 @Transactional
 public class CardServiceImpl implements CardService {
-    private GenericDao<Card> dao;
-    private CardConverter cardConverter;
-    private AccountConverter accountConverter;
+    private final GenericDao<Card> dao;
+    private final CardConverter cardConverter;
+    private final AccountConverter accountConverter;
 
-    @Autowired
-    public void setDao(GenericDao<Card> dao) {
+    public CardServiceImpl(GenericDao<Card> dao, CardConverter cardConverter, AccountConverter accountConverter) {
         this.dao = dao;
         this.dao.setClazz(Card.class);
+        this.cardConverter = cardConverter;
+        this.accountConverter = accountConverter;
     }
 
     public CardDto getById(long id) {
@@ -40,8 +38,8 @@ public class CardServiceImpl implements CardService {
                 .collect(Collectors.toList());
     }
 
-    public void create(CardDto cardDto) {
-        dao.save(cardConverter.toEntity(cardDto));
+    public CardDto create(CardDto cardDto) {
+        return cardConverter.toDto(dao.save(cardConverter.toEntity(cardDto)));
     }
 
     public CardDto update(CardDto cardDto) {
