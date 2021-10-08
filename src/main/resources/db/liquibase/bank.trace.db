@@ -4034,6 +4034,7 @@ select version() [90022-200]
 	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:630)
 	at org.gradle.internal.concurrent.ThreadFactoryImpl$ManagedThreadRunnable.run(ThreadFactoryImpl.java:56)
 	at java.base/java.lang.Thread.run(Thread.java:831)
+<<<<<<< HEAD
 2021-10-08 16:40:15 jdbc[3]: exception
 org.h2.jdbc.JdbcSQLSyntaxErrorException: Функция "VERSION" не найдена
 Function "VERSION" not found; SQL statement:
@@ -4222,3 +4223,5 @@ select version() [90022-200]
 	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1130)
 	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:630)
 	at java.base/java.lang.Thread.run(Thread.java:831)
+=======
+>>>>>>> dev
