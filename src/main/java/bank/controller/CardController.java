@@ -4,6 +4,7 @@ import bank.controller.assembler.CardModelAssembler;
 import bank.dto.BalanceDto;
 import bank.dto.CardDto;
 import bank.service.CardService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +20,7 @@ public class CardController {
     private final CardService cardService;
     private final CardModelAssembler assembler;
 
+    @Autowired
     public CardController(CardService cardService, CardModelAssembler assembler) {
         this.cardService = cardService;
         this.assembler = assembler;

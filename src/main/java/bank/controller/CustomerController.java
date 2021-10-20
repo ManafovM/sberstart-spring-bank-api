@@ -4,6 +4,7 @@ package bank.controller;
 import bank.controller.assembler.CustomerModelAssembler;
 import bank.dto.CustomerDto;
 import bank.service.GenericService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +20,7 @@ public class CustomerController {
     private final GenericService<CustomerDto> customerService;
     private final CustomerModelAssembler assembler;
 
+    @Autowired
     public CustomerController(GenericService<CustomerDto> customerService, CustomerModelAssembler assembler) {
         this.customerService = customerService;
         this.assembler = assembler;
