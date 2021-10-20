@@ -1,0 +1,22 @@
+--liquibase formatted sql
+--changeset manafov:add-rows splitStatements:true endDelimiter:;
+INSERT INTO CUSTOMER
+VALUES (1, 'Мариф', 'Манафов', 'физ. лицо', 0);
+INSERT INTO CUSTOMER
+VALUES (2, 'Иван', 'Дмитриев', 'физ. лицо', 0);
+INSERT INTO CUSTOMER
+VALUES (3, 'Андрей', 'Зубов', 'физ. лицо', 0);
+
+INSERT INTO ACCOUNT
+VALUES (1, 10, '12345678912345670000', 1, 0);
+INSERT INTO ACCOUNT
+VALUES (2, 100, '12343458912345670000', 2, 0);
+INSERT INTO ACCOUNT
+VALUES (3, 100, '00343458912345670000', 3, 0);
+
+INSERT INTO CARD
+VALUES (1, '001', '09/24', '1234567891234567', 'NEW', 1, 0);
+INSERT INTO CARD
+VALUES (2, '002', '03/22', '1234345891234567', 'ACTIVE', 2, 0);
+INSERT INTO CARD
+VALUES (3, '003', '06/23', '0034345891234567', 'BLOCKED', 3, 0);
