@@ -6,7 +6,8 @@ create table CUSTOMER
         primary key,
     FIRSTNAME VARCHAR(255),
     LASTNAME  VARCHAR(255),
-    ROLE      VARCHAR(255)
+    ROLE      VARCHAR(255),
+    VERSION BIGINT
 );
 
 create table ACCOUNT
@@ -16,6 +17,7 @@ create table ACCOUNT
     AMOUNT      DECIMAL(19, 2),
     NUMBER      VARCHAR(255),
     CUSTOMER_ID BIGINT,
+    VERSION BIGINT,
     constraint FK_CUSTOMER_ID
         foreign key (CUSTOMER_ID) references CUSTOMER (ID)
 );
@@ -29,6 +31,7 @@ create table CARD
     NUMBER     VARCHAR(255),
     STATUS     VARCHAR(255),
     ACCOUNT_ID BIGINT,
+    VERSION BIGINT,
     constraint FK_ACCOUNT_ID
         foreign key (ACCOUNT_ID) references ACCOUNT (ID)
 );

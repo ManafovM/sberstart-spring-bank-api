@@ -56,7 +56,7 @@ public class PersistenceJPAConfig {
     @Bean
     public SpringLiquibase liquibase() {
         SpringLiquibase liquibase = new SpringLiquibase();
-        liquibase.setChangeLog("classpath:db/liquibase/changelog.xml");
+        liquibase.setChangeLog("liquibase/changelog.xml");
         liquibase.setDataSource(dataSource());
         return liquibase;
     }

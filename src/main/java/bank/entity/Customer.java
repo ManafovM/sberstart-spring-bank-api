@@ -36,6 +36,9 @@ public class Customer {
     @ToString.Exclude
     private List<Account> accounts;
 
+    @Version
+    private Long version;
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

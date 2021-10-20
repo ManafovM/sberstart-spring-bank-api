@@ -41,6 +41,9 @@ public class Card {
     @JoinColumn(name = "account_id")
     private Account account;
 
+    @Version
+    private Long version;
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

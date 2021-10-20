@@ -10,6 +10,7 @@ import java.math.BigDecimal;
 import static org.hamcrest.CoreMatchers.is;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 public class CardControllerIT extends AbstractControllerIT {
@@ -28,6 +29,7 @@ public class CardControllerIT extends AbstractControllerIT {
         mockMvc.perform(MockMvcRequestBuilders.put("/accounts/2/balance")
                 .contentType(APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(balanceDto)))
+                .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(APPLICATION_JSON))
                 .andExpect(jsonPath("$.amount").value(200));
