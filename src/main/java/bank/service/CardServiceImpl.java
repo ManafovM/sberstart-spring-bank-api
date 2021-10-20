@@ -63,6 +63,9 @@ public class CardServiceImpl implements CardService {
 
     @Transactional
     public BalanceDto deposit(long id, BalanceDto balanceDto) {
+        if (balanceDto.getAmount().doubleValue() < 0) {
+            throw new RuntimeException();
+        }
         Card card = dao.get(id).orElseThrow(RuntimeException::new);
         Account account = card.getAccount();
         account.setAmount(account.getAmount().add(balanceDto.getAmount()));

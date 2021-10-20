@@ -1,6 +1,7 @@
 package bank.it;
 
 import bank.config.PersistenceJPAConfig;
+import bank.config.WebConfig;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.TestInstance;
@@ -14,7 +15,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = PersistenceJPAConfig.class)
+@ContextConfiguration(classes = {WebConfig.class})
 @WebAppConfiguration
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public abstract class AbstractControllerIT {

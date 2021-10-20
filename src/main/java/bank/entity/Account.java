@@ -47,11 +47,11 @@ public class Account {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Account account = (Account) o;
-        return id == account.id && number.equals(account.number) && amount.equals(account.amount) && Objects.equals(cards, account.cards) && customer.equals(account.customer);
+        return id == account.id && number.equals(account.number) && amount.equals(account.amount) && Objects.equals(cards, account.cards) && customer.equals(account.customer) && Objects.equals(version, account.version);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, number, amount, cards, customer);
+        return Objects.hash(id, number, amount, cards, customer, version);
     }
 }
