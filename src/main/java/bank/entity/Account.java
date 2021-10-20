@@ -31,6 +31,7 @@ public class Account {
     private BigDecimal amount;
 
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
+    @ToString.Exclude
     private List<Card> cards;
 
     @NotBlank

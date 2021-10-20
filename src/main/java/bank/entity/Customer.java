@@ -33,6 +33,7 @@ public class Customer {
     private String role;
 
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
+    @ToString.Exclude
     private List<Account> accounts;
 
     @Override

@@ -35,8 +35,7 @@ public class PersistenceJPAConfig {
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("org.h2.Driver");
-        dataSource.setUrl("jdbc:h2:/Users/u19571317/IdeaProjects/SberStartSpringBankAPI/" +
-                "src/main/resources/db/liquibase/bank");
+        dataSource.setUrl("jdbc:h2:file:~/bank");
         return dataSource;
     }
 
@@ -49,7 +48,7 @@ public class PersistenceJPAConfig {
 
     Properties addProperties() {
         Properties properties = new Properties();
-        properties.setProperty("hibernate.hbm2ddl.auto", "update");
+        properties.setProperty("hibernate.hbm2ddl.auto", "none");
         properties.setProperty("hibernate.dialect", "org.hibernate.dialect.H2Dialect");
         return properties;
     }
