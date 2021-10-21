@@ -1,6 +1,8 @@
 package bank.entity;
 
 import lombok.*;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -38,6 +40,7 @@ public class Card {
 
     @NotBlank
     @ManyToOne()
+    @Cascade(CascadeType.SAVE_UPDATE)
     @JoinColumn(name = "account_id")
     private Account account;
 
@@ -49,11 +52,11 @@ public class Card {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Card card = (Card) o;
-        return id == card.id && number.equals(card.number) && expireDate.equals(card.expireDate) && cvc.equals(card.cvc) && status == card.status && account.equals(card.account);
+        return id == card.id && number.equals(card.number) && expireDate.equals(card.expireDate) && cvc.equals(card.cvc) && status == card.status && account.equals(card.account) && Objects.equals(version, card.version);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, number, expireDate, cvc, status, account);
+        return Objects.hash(id, number, expireDate, cvc, status, account, version);
     }
 }

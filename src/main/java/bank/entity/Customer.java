@@ -44,11 +44,11 @@ public class Customer {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Customer customer = (Customer) o;
-        return id == customer.id && firstName.equals(customer.firstName) && lastName.equals(customer.lastName) && role.equals(customer.role) && Objects.equals(accounts, customer.accounts);
+        return id == customer.id && firstName.equals(customer.firstName) && lastName.equals(customer.lastName) && role.equals(customer.role) && Objects.equals(accounts, customer.accounts) && Objects.equals(version, customer.version);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, firstName, lastName, role, accounts);
+        return Objects.hash(id, firstName, lastName, role, accounts, version);
     }
 }
